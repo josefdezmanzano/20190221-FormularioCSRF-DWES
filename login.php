@@ -1,4 +1,8 @@
-<?php session_start(); ?>
+<?php
+session_start();
+$length = 32;
+$_SESSION['token'] = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $length);
+?>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -11,25 +15,12 @@ and open the template in the editor.
         <title></title>
     </head>
     <body>
-        <?php
-        if (isset($_SESSION['user'])) {
-           // $nombre = $_POST["user"];
-            //$password = $_POST["pass"];
-            echo "<p>Bienvenido de vuelta, " . $_SESSION["user"] . "!<br>";
-            echo '<a href="process.php?action=logout">Logout</a></p>';
-            } else {
-            ?>
-            <form method="POST" action="process.php?action=login" enctype="multipart/form-data">
-                <label for="nombre">Nombre:</label>
-                <input type="text" name="user">
-                <label for="password">Password:</label>
-                <input type="text" name="pass">
+        <form method="post" action="process.php">
 
-                <input type="hidden" name="csrf" value="<?php echo $_SESSION["token"]; ?>">
-                <input type="submit" name="btn_env">
-            </form>
-            <?php
-        }
-        ?>
+            <input type="text" name="hello" value="world"/>
+            <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
+            <input type="submit" value="ir"/>
+        </form>
+
     </body>
 </html>
