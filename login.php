@@ -1,7 +1,9 @@
 <?php
 session_start();
 $length = 32;
-$_SESSION['token'] = substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $length);
+$token=substr(base_convert(sha1(uniqid(mt_rand())), 16, 36), 0, $length);
+$_SESSION['token'] = $token;
+
 ?>
 <!DOCTYPE html>
 <!--
@@ -15,11 +17,14 @@ and open the template in the editor.
         <title></title>
     </head>
     <body>
-        <form method="post" action="process.php">
+<?php //echo "Este es el token: ". $token; ?>
+        <form method="POST" action="validar.php?action=login">
 
-            <input type="text" name="hello" value="world"/>
-            <input type="hidden" name="token" value="<?= $_SESSION['token'] ?>"/>
-            <input type="submit" value="ir"/>
+            Usuario: <input type="text" name="user"/>
+            
+            Contraseña: <input type="password" name="pass"/>
+            <input type="hidden" name="tokenform" value=<?php echo "$token"; ?>>
+            <input type="submit" value="Enviar">
         </form>
 
     </body>
